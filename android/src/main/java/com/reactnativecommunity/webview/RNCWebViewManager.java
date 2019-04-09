@@ -158,15 +158,29 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
       dispatchEvent(view, new TopShouldStartLoadWithRequestEvent(view.getId(), url));
-      return true;
+      if (!url.startsWith("http")) {
+        launchIntent(view.getContext(), url);
+        return true;
+      }
+      return false;
     }
-
 
     @TargetApi(Build.VERSION_CODES.N)
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-      dispatchEvent(view, new TopShouldStartLoadWithRequestEvent(view.getId(), request.getUrl().toString()));
-      return true;
+      final String url = request.getUrl().toString();
+      return this.shouldOverrideUrlLoading(view, url);
+    }
+
+    private void launchIntent(Context context, String url) {
+      try {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        context.startActivity(intent);
+      } catch (ActivityNotFoundException e) {
+        FLog.w(ReactConstants.TAG, "activity not found to handle uri scheme for: " + url, e);
+      }
     }
 
     @Override
