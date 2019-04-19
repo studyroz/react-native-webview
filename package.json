@@ -14,8 +14,8 @@
     "ci": "CI=true && yarn lint && yarn test",
     "ci:publish": "yarn semantic-release",
     "lint": "yarn tsc --noEmit && yarn eslint ./src --ext .ts,.tsx",
-    "build": "npm install typescript --save-dev && yarn tsc",
-    "prepack": "npm install typescript --save-dev && yarn build",
+    "build": "npm install && yarn tsc",
+    "prepack": "yarn build",
     "test": "yarn jest"
   },
   "peerDependencies": {
