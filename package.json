@@ -14,7 +14,7 @@
     "ci": "CI=true && yarn lint && yarn test",
     "ci:publish": "yarn semantic-release",
     "lint": "yarn tsc --noEmit && yarn eslint ./src --ext .ts,.tsx",
-    "build": "yarn tsc",
+    "build": "npm install typescript --save-dev && yarn tsc",
     "prepack": "yarn build",
     "test": "yarn jest"
   },
@@ -50,7 +50,7 @@
     "react": "16.8.3",
     "react-native": "0.59.1",
     "semantic-release": "15.10.3",
-    "typescript": "3.3.3333"
+    "typescript": "^3.3.3333"
   },
   "repository": {
     "type": "git",
